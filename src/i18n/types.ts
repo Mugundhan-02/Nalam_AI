@@ -1,0 +1,103 @@
+export interface TranslationSchema {
+  app: {
+    name: string;
+    tagline: string;
+    badge: string;
+  };
+  header: {
+    statusAvailable: string;
+    verifiedGuidance: string;
+    emergencyCall: string;
+    languageToggleLabel: string;
+    aiAssistantBadge: string;
+    trustedSafePrivate: string;
+  };
+  sidebar: {
+    home: string;
+    newChat: string;
+    healthTopics: string;
+    savedQuestions: string;
+    disclaimer: string;
+    about: string;
+    trustCardTitle: string;
+    trustCardDesc: string;
+    copyright: string;
+    rights: string;
+  };
+  hero: {
+    title: string;
+    titleHighlight: string;
+    subtitle: string;
+    trustedInfoBadge: string;
+    privacyBadge: string;
+    bilingualBadge: string;
+  };
+  input: {
+    placeholder: string;
+    charLimit: string;
+    askButton: string;
+    voiceButtonTooltip: string;
+    helpText: string;
+  };
+  quickQuestions: {
+    title: string;
+    subtitle: string;
+    viewAll: string;
+    symptomsTitle: string;
+    symptomsQuestion: string;
+    preventionTitle: string;
+    preventionQuestion: string;
+    whenToSeeDoctorTitle: string;
+    whenToSeeDoctorQuestion: string;
+    healthAdviceTitle: string;
+    healthAdviceQuestion: string;
+  };
+  healthTopics: {
+    title: string;
+    subtitle: string;
+    viewAll: string;
+    viewGuide: string;
+    learnMore: string;
+  };
+  chatWorkspace: {
+    title: string;
+    subtitle: string;
+    welcomeMessage: string;
+    onlineStatus: string;
+    clearChat: string;
+    emptyStateTitle: string;
+    emptyStateSubtitle: string;
+    userBadge: string;
+    aiBadge: string;
+    typingStatus: string;
+    sourcesLabel: string;
+    disclaimerNote: string;
+    disclaimerFooter: string;
+    keyboardHint: string;
+  };
+  chatPreview: {
+    title: string;
+    subtitle: string;
+    structuredResponseTitle: string;
+    overview: string;
+    symptoms: string[];
+    prevention: string[];
+    whenToSeekHelp: string[];
+    sourcesTitle: string;
+    sampleSource1: string;
+    sampleSource2: string;
+    waitingForQuery: string;
+    aiBadge: string;
+  };
+  disclaimer: {
+    title: string;
+    body: string;
+    emergencyNotice: string;
+    centerBanner: string;
+  };
+  accessibility: {
+    switchToTamil: string;
+    switchToEnglish: string;
+    currentLanguage: string;
+  };
+}

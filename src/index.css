@@ -1,0 +1,37 @@
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    --primary-teal: #0F9D8A;
+    --primary-teal-hover: #0C8575;
+    --bg-main: #F8FAFC;
+    --card-bg: #FFFFFF;
+    --soft-mint: #E8F7F3;
+    --soft-blue: #DBEAFE;
+    --primary-text: #172554;
+    --muted-text: #475569;
+    --warning-bg: #FEE2E2;
+    --warning-text: #991B1B;
+    --success: #10B981;
+  }
+
+  body {
+    font-family: "Plus Jakarta Sans", "Noto Sans Tamil", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    background-color: var(--bg-main);
+    color: var(--primary-text);
+  }
+
+  /* Tamil font enhancement */
+  [lang="ta"], .font-tamil {
+    font-family: "Noto Sans Tamil", "Plus Jakarta Sans", sans-serif;
+    letter-spacing: 0.01em;
+    line-height: 1.6;
+  }
+}
+
+/* Custom focus ring for high accessibility */
+*:focus-visible {
+  outline: 2px solid #0F9D8A;
+  outline-offset: 2px;
+}
+
