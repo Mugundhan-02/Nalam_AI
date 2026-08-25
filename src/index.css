@@ -23,9 +23,20 @@
 
   /* Tamil font enhancement */
   [lang="ta"], .font-tamil {
-    font-family: "Noto Sans Tamil", "Plus Jakarta Sans", sans-serif;
-    letter-spacing: 0.01em;
+    font-family: "Noto Sans Tamil", "Plus Jakarta Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    letter-spacing: 0.015em;
     line-height: 1.6;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    overflow-wrap: break-word;
+    word-break: normal;
+  }
+
+  /* Ensure Tamil headings and titles have comfortable breathing room for upper/lower vowel glyphs */
+  [lang="ta"] h1, [lang="ta"] h2, [lang="ta"] h3, [lang="ta"] h4,
+  .font-tamil h1, .font-tamil h2, .font-tamil h3, .font-tamil h4 {
+    line-height: 1.35;
+    letter-spacing: 0.01em;
   }
 }
 

@@ -13,6 +13,7 @@ export const enTranslations: TranslationSchema = {
     languageToggleLabel: 'Select language',
     aiAssistantBadge: 'AI Health Assistant',
     trustedSafePrivate: 'Trusted • Safe • Private',
+    themeToggleAriaLabel: 'Toggle light/dark theme',
   },
   sidebar: {
     home: 'Home',
@@ -25,6 +26,8 @@ export const enTranslations: TranslationSchema = {
     trustCardDesc: 'Our answers are grounded in trusted health sources and public datasets.',
     copyright: '© 2024 Nalam AI',
     rights: 'All rights reserved',
+    mainSidebarAriaLabel: 'Main Application Sidebar',
+    navItemsAriaLabel: 'Sidebar Navigation Items',
   },
   hero: {
     title: 'How can we',
@@ -40,6 +43,7 @@ export const enTranslations: TranslationSchema = {
     askButton: 'Send',
     voiceButtonTooltip: 'Voice input',
     helpText: 'Nalam AI provides public health awareness. For personal emergencies, consult a physician or call 108.',
+    inputLanguageBadge: 'English Input',
   },
   quickQuestions: {
     title: 'Quick Questions',
@@ -76,12 +80,27 @@ export const enTranslations: TranslationSchema = {
     disclaimerNote: 'Informational public health tool. In emergencies, call 108.',
     disclaimerFooter: 'Nalam AI can make mistakes. Please verify important information.',
     keyboardHint: 'Enter to send',
+    symptomsHeader: 'Symptoms',
+    preventionHeader: 'Prevention',
+    whenToSeekHelpHeader: 'When to see a Doctor',
+    overviewHeader: 'Overview',
+    errorMessage: 'Unable to load health guidance. Please try again.',
+    retryAction: 'Retry',
+    defaultAiIntro: 'Based on verified public health guidelines, here is structured medical guidance for your inquiry:',
+    pillDengue: 'Dengue symptoms',
+    pillFever: 'Fever care',
+    pillDoctor: 'When to see doctor',
+    pillDengueQuery: 'What are the common symptoms of Dengue?',
+    pillFeverQuery: 'How to manage viral fever at home safely?',
+    pillDoctorQuery: 'When should I visit a doctor for severe symptoms?',
   },
   chatPreview: {
     title: 'Structured Health Intelligence Preview',
     subtitle: 'Nalam AI synthesizes verified health information into actionable, structured categories.',
     structuredResponseTitle: 'Response Format Preview',
+    overviewTitle: 'Overview',
     overview: 'Dengue is a viral infection transmitted to humans through the bite of infected Aedes mosquitoes.',
+    symptomsTitle: 'Symptoms',
     symptoms: [
       'High fever',
       'Severe headache',
@@ -90,9 +109,11 @@ export const enTranslations: TranslationSchema = {
       'Nausea and vomiting',
       'Skin rash',
     ],
+    preventionTitle: 'Prevention',
     prevention: [
       'Remove stagnant water, use mosquito repellent, wear full-sleeve clothing, and use mosquito nets.',
     ],
+    emergencyTitle: 'When to Seek Immediate Medical Help',
     whenToSeekHelp: [
       'Seek immediate medical attention if you experience severe abdominal pain, persistent vomiting, difficulty breathing, bleeding, or extreme fatigue.',
     ],
@@ -108,9 +129,19 @@ export const enTranslations: TranslationSchema = {
     emergencyNotice: 'If you or someone around you is experiencing a medical emergency, call 108 or visit the nearest healthcare facility immediately.',
     centerBanner: 'For health awareness only. This chatbot does not replace professional medical advice.',
   },
+  footer: {
+    helpline: 'National Health Helpline: 104 / 108',
+  },
   accessibility: {
     switchToTamil: 'Switch interface and response language to Tamil',
     switchToEnglish: 'Switch interface and response language to English',
     currentLanguage: 'Current language: English',
+    discoveryAreaAriaLabel: 'Health Discovery Area',
+    chatWorkspaceAriaLabel: 'Nalam AI Chat Workspace',
+    moreOptionsAriaLabel: 'More options',
+    clearChatAriaLabel: 'Clear chat history',
+    sendAriaLabel: 'Send health inquiry',
+    retryAriaLabel: 'Retry generating health guidance response',
   },
 };
+

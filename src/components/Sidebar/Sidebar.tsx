@@ -96,11 +96,11 @@ export const Sidebar: React.FC<SidebarProps> = ({
   return (
     <aside
       id="nalam-sidebar-navigation"
-      aria-label="Main Application Sidebar"
+      aria-label={t.sidebar.mainSidebarAriaLabel}
       className="w-52 xl:w-56 flex flex-col justify-between p-2 shrink-0 h-full overflow-y-auto"
     >
       {/* Primary Navigation Menu */}
-      <nav className="space-y-1.5 pt-1" aria-label="Sidebar Navigation Items">
+      <nav className="space-y-1.5 pt-1" aria-label={t.sidebar.navItemsAriaLabel}>
         {navItems.map((item) => {
           const Icon = item.icon;
           const isSelected = activeItem === item.id;
@@ -110,6 +110,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
               key={item.id}
               type="button"
               id={`sidebar-nav-item-${item.id}`}
+              title={item.label}
               onClick={item.action}
               whileHover={!prefersReducedMotion ? { x: 2 } : {}}
               whileTap={!prefersReducedMotion ? { scale: 0.98 } : {}}
@@ -124,7 +125,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
                   isSelected ? 'text-[#0F9D8A]' : 'text-[#64748B]'
                 }`}
               />
-              <span className="truncate">
+              <span className="truncate flex-1 min-w-0 leading-normal">
                 <AnimatedText as="span">{item.label}</AnimatedText>
               </span>
             </motion.button>
@@ -153,8 +154,12 @@ export const Sidebar: React.FC<SidebarProps> = ({
 
         {/* Footer / Copyright */}
         <div className="px-1 text-[11px] text-[#94A3B8] space-y-0.5">
-          <p>© 2024 Nalam AI</p>
-          <p>All rights reserved</p>
+          <p>
+            <AnimatedText as="span">{t.sidebar.copyright}</AnimatedText>
+          </p>
+          <p>
+            <AnimatedText as="span">{t.sidebar.rights}</AnimatedText>
+          </p>
         </div>
       </div>
     </aside>

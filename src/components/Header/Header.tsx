@@ -67,7 +67,7 @@ export const Header: React.FC = () => {
           <button
             type="button"
             id="theme-toggle-btn"
-            aria-label="Toggle light/dark theme"
+            aria-label={t.header.themeToggleAriaLabel}
             className="w-9 h-9 rounded-xl border border-[#E2E8F0] bg-white hover:bg-[#F8FAFC] flex items-center justify-center text-[#64748B] hover:text-[#0F172A] transition-colors cursor-pointer"
           >
             <Sun className="w-4 h-4" />

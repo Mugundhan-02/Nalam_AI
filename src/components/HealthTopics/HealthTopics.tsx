@@ -3,6 +3,7 @@ import { motion } from 'motion/react';
 import { useLanguage } from '../../i18n/useTranslation';
 import { AnimatedText } from '../common/AnimatedText';
 import { usePrefersReducedMotion } from '../../hooks/usePrefersReducedMotion';
+import { ContextAnimation } from './ContextAnimation';
 import type { HealthTopicItem } from '../../types';
 
 interface HealthTopicCardConfig {
@@ -60,7 +61,7 @@ export const HEALTH_TOPICS_CARDS: HealthTopicCardConfig[] = [
     taTitle: 'காசநோய்',
     promptEn: 'What are the key symptoms and treatments for Tuberculosis (TB)?',
     promptTa: 'காசநோயின் முக்கிய அறிகுறிகள் மற்றும் சிகிச்சை முறைகள் என்ன?',
-    animationHookId: 'breath-particles',
+    animationHookId: 'lung-breathing',
     icon: (
       <svg className="w-8 h-8 sm:w-9 sm:h-9" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
         <circle cx="24" cy="24" r="22" fill="#FFF1F2" />
@@ -76,7 +77,7 @@ export const HEALTH_TOPICS_CARDS: HealthTopicCardConfig[] = [
     taTitle: 'காய்ச்சல் & சளி',
     promptEn: 'How can I treat viral flu and common cold at home?',
     promptTa: 'பருவகால காய்ச்சல் மற்றும் சளியை வீட்டிலேயே எவ்வாறு கையாள்வது?',
-    animationHookId: 'breath-particles',
+    animationHookId: 'cold-virus-breath',
     icon: (
       <svg className="w-8 h-8 sm:w-9 sm:h-9" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
         <circle cx="24" cy="24" r="22" fill="#EFF6FF" />
@@ -95,7 +96,7 @@ export const HEALTH_TOPICS_CARDS: HealthTopicCardConfig[] = [
     taTitle: 'வயிற்றுப்போக்கு',
     promptEn: 'How to manage diarrheal diseases and prevent severe dehydration?',
     promptTa: 'வயிற்றுப்போக்கு நோய்களை எவ்வாறு நிர்வகிப்பது மற்றும் நீரிழப்பைத் தடுப்பது?',
-    animationHookId: 'water-drop',
+    animationHookId: 'ors-rehydration',
     icon: (
       <svg className="w-8 h-8 sm:w-9 sm:h-9" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
         <circle cx="24" cy="24" r="22" fill="#F0F9FF" />
@@ -115,7 +116,7 @@ export const HEALTH_TOPICS_CARDS: HealthTopicCardConfig[] = [
     taTitle: 'சர்க்கரை நோய்',
     promptEn: 'What are the effective ways to manage blood sugar and diabetes?',
     promptTa: 'ரத்த சர்க்கரை அளவை எவ்வாறு சரியாக கட்டுக்குள் வைப்பது?',
-    animationHookId: 'gentle-glow',
+    animationHookId: 'glucose-monitor',
     icon: (
       <svg className="w-8 h-8 sm:w-9 sm:h-9" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
         <circle cx="24" cy="24" r="22" fill="#F0FDF4" />
@@ -136,7 +137,7 @@ export const HEALTH_TOPICS_CARDS: HealthTopicCardConfig[] = [
     taTitle: 'ரத்த அழுத்தம்',
     promptEn: 'What are the symptoms and lifestyle changes for Hypertension (High BP)?',
     promptTa: 'உயர் ரத்த அழுத்தத்தின் அறிகுறிகள் மற்றும் வாழ்க்கை முறை மாற்றங்கள் என்ன?',
-    animationHookId: 'heartbeat-pulse',
+    animationHookId: 'bp-measurement',
     icon: (
       <svg className="w-8 h-8 sm:w-9 sm:h-9" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
         <circle cx="24" cy="24" r="22" fill="#FFF1F2" />
@@ -156,7 +157,7 @@ export const HEALTH_TOPICS_CARDS: HealthTopicCardConfig[] = [
     taTitle: 'ஊட்டச்சத்து',
     promptEn: 'What constitutes a healthy balanced diet for disease prevention?',
     promptTa: 'நோய்களைத் தடுக்க சமச்சீர் ஆரோக்கியமான உணவுமுறை எவ்வாறு இருக்க வேண்டும்?',
-    animationHookId: 'shield-protection',
+    animationHookId: 'balanced-nutrition',
     icon: (
       <svg className="w-8 h-8 sm:w-9 sm:h-9" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
         <circle cx="24" cy="24" r="22" fill="#FEF2F2" />
@@ -245,12 +246,13 @@ export const HealthTopics: React.FC<HealthTopicsProps> = ({ onSelectTopic, onSel
                     }
                   : {}
               }
-              className="group p-2.5 sm:p-3 bg-white hover:bg-[#F8FAFC] border border-[#E2E8F0] hover:border-[#0F9D8A]/50 rounded-2xl shadow-2xs hover:shadow-xs transition-all duration-150 flex flex-col items-center justify-center text-center cursor-pointer min-h-[96px]"
+              className="group relative overflow-hidden p-2.5 sm:p-3 bg-white hover:bg-[#F8FAFC] border border-[#E2E8F0] hover:border-[#0F9D8A]/50 rounded-2xl shadow-2xs hover:shadow-xs transition-all duration-150 flex flex-col items-center justify-center text-center cursor-pointer min-h-[96px]"
             >
-              <div className="mb-1.5 flex items-center justify-center">
+              <div className="relative mb-1.5 flex items-center justify-center">
                 {topic.icon}
+                <ContextAnimation hook={topic.animationHookId} cardId={topic.id} />
               </div>
-              <span className="text-[11px] sm:text-xs font-bold text-[#0F172A] group-hover:text-[#0F9D8A] transition-colors leading-tight line-clamp-2">
+              <span className="text-[11px] sm:text-xs font-bold text-[#0F172A] group-hover:text-[#0F9D8A] transition-colors leading-snug line-clamp-2 px-1">
                 <AnimatedText as="span">{title}</AnimatedText>
               </span>
             </motion.button>
@@ -260,5 +262,6 @@ export const HealthTopics: React.FC<HealthTopicsProps> = ({ onSelectTopic, onSel
     </section>
   );
 };
+
 
 

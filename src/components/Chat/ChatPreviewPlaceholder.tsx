@@ -46,7 +46,7 @@ export const ChatPreviewPlaceholder: React.FC = () => {
         <div id="ai-structured-block-overview" className="p-3.5 bg-[#F8FAFC] border-l-3 border-[#0F9D8A] rounded-r-lg">
           <div className="flex items-center gap-2 font-semibold text-xs text-[#0F9D8A] mb-1">
             <Stethoscope className="w-4 h-4" aria-hidden="true" />
-            <span>{language === 'ta' ? '🩺 பொதுக் கண்ணோட்டம் (Overview)' : '🩺 Overview'}</span>
+            <AnimatedText as="span">{t.chatPreview.overviewTitle}</AnimatedText>
           </div>
           <p className="text-xs sm:text-sm text-[#172554] leading-relaxed">
             <AnimatedText as="span">{t.chatPreview.overview}</AnimatedText>
@@ -59,7 +59,7 @@ export const ChatPreviewPlaceholder: React.FC = () => {
           <div id="ai-structured-block-symptoms" className="p-3.5 bg-[#FFFBEB]/60 border border-[#FDE68A] rounded-xl">
             <div className="flex items-center gap-2 font-semibold text-xs text-[#B45309] mb-2">
               <Activity className="w-4 h-4" aria-hidden="true" />
-              <span>{language === 'ta' ? '🤒 அறிகுறிகள் (Symptoms)' : '🤒 Symptoms'}</span>
+              <AnimatedText as="span">{t.chatPreview.symptomsTitle}</AnimatedText>
             </div>
             <ul className="space-y-1.5 text-xs text-[#172554]">
               {t.chatPreview.symptoms.map((item, idx) => (
@@ -75,7 +75,7 @@ export const ChatPreviewPlaceholder: React.FC = () => {
           <div id="ai-structured-block-prevention" className="p-3.5 bg-[#E8F7F3]/70 border border-[#A7F3D0] rounded-xl">
             <div className="flex items-center gap-2 font-semibold text-xs text-[#047857] mb-2">
               <ShieldCheck className="w-4 h-4" aria-hidden="true" />
-              <span>{language === 'ta' ? '🛡️ தடுப்பு முறைகள் (Prevention)' : '🛡️ Prevention'}</span>
+              <AnimatedText as="span">{t.chatPreview.preventionTitle}</AnimatedText>
             </div>
             <ul className="space-y-1.5 text-xs text-[#172554]">
               {t.chatPreview.prevention.map((item, idx) => (
@@ -92,7 +92,7 @@ export const ChatPreviewPlaceholder: React.FC = () => {
         <div id="ai-structured-block-emergency" className="p-3.5 bg-[#FEF2F2] border border-[#FECACA] rounded-xl">
           <div className="flex items-center gap-2 font-semibold text-xs text-[#991B1B] mb-2">
             <AlertOctagon className="w-4 h-4 text-[#DC2626]" aria-hidden="true" />
-            <span>{language === 'ta' ? '🚨 மருத்துவரை அணுக வேண்டிய அவசர அறிகுறிகள்' : '🚨 When to Seek Immediate Medical Help'}</span>
+            <AnimatedText as="span">{t.chatPreview.emergencyTitle}</AnimatedText>
           </div>
           <ul className="space-y-1 text-xs text-[#7F1D1D]">
             {t.chatPreview.whenToSeekHelp.map((item, idx) => (

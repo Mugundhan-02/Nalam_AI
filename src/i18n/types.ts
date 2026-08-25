@@ -11,6 +11,7 @@ export interface TranslationSchema {
     languageToggleLabel: string;
     aiAssistantBadge: string;
     trustedSafePrivate: string;
+    themeToggleAriaLabel: string;
   };
   sidebar: {
     home: string;
@@ -23,6 +24,8 @@ export interface TranslationSchema {
     trustCardDesc: string;
     copyright: string;
     rights: string;
+    mainSidebarAriaLabel: string;
+    navItemsAriaLabel: string;
   };
   hero: {
     title: string;
@@ -38,6 +41,7 @@ export interface TranslationSchema {
     askButton: string;
     voiceButtonTooltip: string;
     helpText: string;
+    inputLanguageBadge: string;
   };
   quickQuestions: {
     title: string;
@@ -74,14 +78,31 @@ export interface TranslationSchema {
     disclaimerNote: string;
     disclaimerFooter: string;
     keyboardHint: string;
+    symptomsHeader: string;
+    preventionHeader: string;
+    whenToSeekHelpHeader: string;
+    overviewHeader: string;
+    errorMessage: string;
+    retryAction: string;
+    defaultAiIntro: string;
+    pillDengue: string;
+    pillFever: string;
+    pillDoctor: string;
+    pillDengueQuery: string;
+    pillFeverQuery: string;
+    pillDoctorQuery: string;
   };
   chatPreview: {
     title: string;
     subtitle: string;
     structuredResponseTitle: string;
+    overviewTitle: string;
     overview: string;
+    symptomsTitle: string;
     symptoms: string[];
+    preventionTitle: string;
     prevention: string[];
+    emergencyTitle: string;
     whenToSeekHelp: string[];
     sourcesTitle: string;
     sampleSource1: string;
@@ -95,9 +116,19 @@ export interface TranslationSchema {
     emergencyNotice: string;
     centerBanner: string;
   };
+  footer: {
+    helpline: string;
+  };
   accessibility: {
     switchToTamil: string;
     switchToEnglish: string;
     currentLanguage: string;
+    discoveryAreaAriaLabel: string;
+    chatWorkspaceAriaLabel: string;
+    moreOptionsAriaLabel: string;
+    clearChatAriaLabel: string;
+    sendAriaLabel: string;
+    retryAriaLabel: string;
   };
 }
+

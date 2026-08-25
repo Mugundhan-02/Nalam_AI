@@ -8,7 +8,7 @@ export const MedicalDisclaimer: React.FC = () => {
 
   return (
     <aside
-      id="medical-disclaimer-card"
+      id="nalam-disclaimer-section"
       aria-label={t.disclaimer.title}
       className="shrink-0 w-full rounded-2xl bg-[#FFFBEB]/60 border border-[#FDE68A]/80 p-3 sm:p-3.5 my-3 text-xs text-[#92400E] flex items-start gap-2.5 shadow-2xs"
     >

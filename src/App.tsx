@@ -75,7 +75,7 @@ const AppContent: React.FC = () => {
         {/* AREA 2 (CENTER): Discovery / Health Content Area (Hero, Quick Questions, Health Topics, Disclaimer) */}
         <main
           id="nalam-discovery-area"
-          aria-label="Health Discovery Area"
+          aria-label={t.accessibility.discoveryAreaAriaLabel}
           className="flex flex-col w-full md:w-[420px] lg:w-[480px] xl:w-[520px] 2xl:w-[560px] shrink-0 h-auto md:h-full overflow-y-visible md:overflow-y-auto pr-0 md:pr-2 space-y-4 scrollbar-thin scrollbar-thumb-slate-200"
         >
           {/* Conversational Hero Dashboard Card */}
@@ -94,7 +94,7 @@ const AppContent: React.FC = () => {
         {/* AREA 3 (RIGHT): Persistent AI Chat Workspace (Header, Messages, Composer) */}
         <section
           id="nalam-chat-area-container"
-          aria-label="Nalam AI Chat Workspace"
+          aria-label={t.accessibility.chatWorkspaceAriaLabel}
           className="flex-1 min-w-0 min-h-[480px] md:min-h-0 h-full flex flex-col"
         >
           <ChatWorkspace
@@ -122,7 +122,7 @@ const AppContent: React.FC = () => {
             <span className="text-[#94A3B8]">•</span>
             <div className="inline-flex items-center gap-1 font-medium text-[#991B1B]">
               <PhoneCall className="w-3 h-3" aria-hidden="true" />
-              <span>National Health Helpline: 104 / 108</span>
+              <AnimatedText as="span">{t.footer.helpline}</AnimatedText>
             </div>
           </div>
         </div>

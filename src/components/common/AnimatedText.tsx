@@ -10,11 +10,15 @@ interface AnimatedTextProps {
 }
 
 /**
- * AnimatedText implements the specific Nalam AI Language Transition:
- * 1. Fade & dissolve away with subtle blur (~3-4px)
- * 2. New text fades into the exact same layout position
- * 3. Smooth duration ~280ms
- * 4. Respects prefers-reduced-motion
+ * AnimatedText implements Phase 3.1 English ↔ Tamil Language Transition:
+ * 
+ * When switching languages:
+ * 1. Old language text remains in its exact position, gently fades out (opacity: 1 -> 0) and subtly blurs (blur: 3px).
+ * 2. New language text appears in the SAME position, begins slightly blurred (blur: 3px, opacity: 0),
+ *    and smoothly sharpens into crisp focus (blur: 0px, opacity: 1).
+ * 3. Exact target duration ~280ms (130ms exit dissolve + 150ms enter focus).
+ * 4. Zero sliding, zero bouncing, zero layout shift.
+ * 5. Full support for prefers-reduced-motion (immediate transition without blur/fade).
  */
 export const AnimatedText: React.FC<AnimatedTextProps> = ({
   children,
@@ -34,10 +38,24 @@ export const AnimatedText: React.FC<AnimatedTextProps> = ({
     <AnimatePresence mode="wait" initial={false}>
       <MotionComponent
         key={language}
-        initial={{ opacity: 0, filter: 'blur(4px)' }}
-        animate={{ opacity: 1, filter: 'blur(0px)' }}
-        exit={{ opacity: 0, filter: 'blur(4px)' }}
-        transition={{ duration: 0.28, ease: [0.25, 0.1, 0.25, 1] }}
+        initial={{ opacity: 0, filter: 'blur(3px)' }}
+        animate={{
+          opacity: 1,
+          filter: 'blur(0px)',
+          transition: {
+            duration: 0.15,
+            ease: [0.16, 1, 0.3, 1], // Smooth ease-out into crisp focus
+          },
+        }}
+        exit={{
+          opacity: 0,
+          filter: 'blur(3px)',
+          transition: {
+            duration: 0.13,
+            ease: [0.7, 0, 0.84, 0], // Gentle ease-in dissolve
+          },
+        }}
+        style={{ willChange: 'opacity, filter' }}
         className={className}
       >
         {children}
@@ -45,4 +63,3 @@ export const AnimatedText: React.FC<AnimatedTextProps> = ({
     </AnimatePresence>
   );
 };
-

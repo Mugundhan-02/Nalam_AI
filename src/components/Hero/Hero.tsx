@@ -42,7 +42,7 @@ export const Hero: React.FC = () => {
         <motion.h1
           id="hero-title"
           variants={itemVariants}
-          className="text-2xl sm:text-3xl font-extrabold text-[#0F172A] tracking-tight leading-tight"
+          className="text-2xl sm:text-3xl font-extrabold text-[#0F172A] tracking-tight leading-[1.25] sm:leading-[1.2]"
         >
           <AnimatedText as="span">{t.hero.title}</AnimatedText>
           <br />
@@ -96,9 +96,9 @@ export const Hero: React.FC = () => {
           <path d="M56 48H68V58C68 61.3137 65.3137 64 62 64C58.6863 64 56 61.3137 56 58V48Z" fill="#FBD38D" />
           <ellipse cx="62" cy="38" rx="14" ry="16" fill="#FEEBC8" />
 
-          {/* Hair front */}
+          {/* Hair front & bangs */}
           <path
-            d="M48 28C52 24 60 22 64 25C68 22 76 24 76 30C76 33 74 36 71 36C67 36 65 31 62 31C59 31 56 36 53 36C50 36 48 33 48 28Z"
+            d="M45 35C45 20 52 14 62 14C72 14 79 20 79 35C79 36 75 35 72 33C68 31 65 29 62 29C58 29 55 33 50 35C47 36 45 36 45 35Z"
             fill="#0F172A"
           />
 

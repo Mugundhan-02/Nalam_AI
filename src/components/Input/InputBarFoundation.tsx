@@ -87,7 +87,7 @@ export const InputBarFoundation: React.FC<InputBarFoundationProps> = ({
           <div className="flex items-center gap-2 text-xs text-[#64748B]">
             <span className="inline-flex items-center gap-1 font-medium bg-[#E8F7F3] text-[#0F9D8A] px-2.5 py-1 rounded-md text-[11px]">
               <Sparkles className="w-3 h-3" aria-hidden="true" />
-              {language === 'ta' ? 'தமிழ் உள்ளீடு' : 'English Input'}
+              <AnimatedText as="span">{t.input.inputLanguageBadge}</AnimatedText>
             </span>
 
             <span className={`text-[11px] font-mono ${isOverLimit ? 'text-red-600 font-bold' : 'text-[#64748B]'}`}>

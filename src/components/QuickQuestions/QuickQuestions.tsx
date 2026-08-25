@@ -5,57 +5,47 @@ import { useLanguage } from '../../i18n/useTranslation';
 import { AnimatedText } from '../common/AnimatedText';
 import { usePrefersReducedMotion } from '../../hooks/usePrefersReducedMotion';
 
-interface QuickQuestionCardData {
+interface QuickQuestionCardConfig {
   id: string;
   iconBg: string;
   iconColor: string;
   icon: React.ReactNode;
-  enTitle: string;
-  taTitle: string;
-  enQuestion: string;
-  taQuestion: string;
+  getTitle: (t: ReturnType<typeof useLanguage>['t']) => string;
+  getQuestion: (t: ReturnType<typeof useLanguage>['t']) => string;
 }
 
-const QUICK_QUESTIONS_CARDS: QuickQuestionCardData[] = [
+const QUICK_QUESTIONS_CONFIG: QuickQuestionCardConfig[] = [
   {
     id: 'qq-symptoms',
     iconBg: 'bg-[#F3E8FF]',
     iconColor: 'text-[#9333EA]',
     icon: <Smile className="w-4 h-4 text-[#9333EA]" />,
-    enTitle: 'Symptoms',
-    taTitle: 'அறிகுறிகள்',
-    enQuestion: 'What are the symptoms of dengue?',
-    taQuestion: 'டெங்கு காய்ச்சலின் பொதுவான அறிகுறிகள் என்ன?',
+    getTitle: (t) => t.quickQuestions.symptomsTitle,
+    getQuestion: (t) => t.quickQuestions.symptomsQuestion,
   },
   {
     id: 'qq-prevention',
     iconBg: 'bg-[#DCFCE7]',
     iconColor: 'text-[#16A34A]',
     icon: <ShieldCheck className="w-4 h-4 text-[#16A34A]" />,
-    enTitle: 'Prevention',
-    taTitle: 'தடுப்பு முறைகள்',
-    enQuestion: 'How can I prevent dengue?',
-    taQuestion: 'டெங்கு காய்ச்சலை எவ்வாறு தடுப்பது?',
+    getTitle: (t) => t.quickQuestions.preventionTitle,
+    getQuestion: (t) => t.quickQuestions.preventionQuestion,
   },
   {
     id: 'qq-doctor',
     iconBg: 'bg-[#FEE2E2]',
     iconColor: 'text-[#DC2626]',
     icon: <AlertTriangle className="w-4 h-4 text-[#DC2626]" />,
-    enTitle: 'When to see a Doctor',
-    taTitle: 'மருத்துவரை எப்போது பார்க்க வேண்டும்',
-    enQuestion: 'When should I see a doctor?',
-    taQuestion: 'எப்போது உடனடியாக மருத்துவரை அணுக வேண்டும்?',
+    getTitle: (t) => t.quickQuestions.whenToSeeDoctorTitle,
+    getQuestion: (t) => t.quickQuestions.whenToSeeDoctorQuestion,
   },
   {
     id: 'qq-advice',
     iconBg: 'bg-[#E0F2FE]',
     iconColor: 'text-[#0284C7]',
     icon: <Droplets className="w-4 h-4 text-[#0284C7]" />,
-    enTitle: 'Health Advice',
-    taTitle: 'சுகாதார ஆலோசனை',
-    enQuestion: 'What should I do if I have diarrhea?',
-    taQuestion: 'வயிற்றுப்போக்கு ஏற்பட்டால் என்ன செய்ய வேண்டும்?',
+    getTitle: (t) => t.quickQuestions.healthAdviceTitle,
+    getQuestion: (t) => t.quickQuestions.healthAdviceQuestion,
   },
 ];
 
@@ -64,7 +54,7 @@ interface QuickQuestionsProps {
 }
 
 export const QuickQuestions: React.FC<QuickQuestionsProps> = ({ onSelectQuestion }) => {
-  const { t, language } = useLanguage();
+  const { t } = useLanguage();
   const prefersReducedMotion = usePrefersReducedMotion();
 
   return (
@@ -79,9 +69,9 @@ export const QuickQuestions: React.FC<QuickQuestionsProps> = ({ onSelectQuestion
 
       {/* 2x2 Cards Grid */}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-        {QUICK_QUESTIONS_CARDS.map((item) => {
-          const title = language === 'ta' ? item.taTitle : item.enTitle;
-          const question = language === 'ta' ? item.taQuestion : item.enQuestion;
+        {QUICK_QUESTIONS_CONFIG.map((item) => {
+          const title = item.getTitle(t);
+          const question = item.getQuestion(t);
 
           return (
             <motion.button
@@ -117,10 +107,10 @@ export const QuickQuestions: React.FC<QuickQuestionsProps> = ({ onSelectQuestion
 
               {/* Title & Question */}
               <div className="flex-1 min-w-0">
-                <h3 className="text-xs font-bold text-[#0F172A] group-hover:text-[#0F9D8A] transition-colors leading-tight">
+                <h3 className="text-xs font-bold text-[#0F172A] group-hover:text-[#0F9D8A] transition-colors leading-snug">
                   <AnimatedText as="span">{title}</AnimatedText>
                 </h3>
-                <p className="text-[11px] text-[#64748B] leading-tight mt-1">
+                <p className="text-[11px] text-[#64748B] leading-relaxed mt-0.5">
                   <AnimatedText as="span">{question}</AnimatedText>
                 </p>
               </div>
