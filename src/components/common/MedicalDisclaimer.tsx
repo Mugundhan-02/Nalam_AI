@@ -17,10 +17,14 @@ export const MedicalDisclaimer: React.FC = () => {
         <p className="leading-relaxed text-[11px] sm:text-xs text-[#78350F]">
           <AnimatedText as="span">{t.disclaimer.body}</AnimatedText>
         </p>
-        <div className="flex items-center gap-1 font-semibold text-[11px] text-[#B45309]">
+        <a
+          href="tel:108"
+          id="disclaimer-emergency-call-link"
+          className="inline-flex items-center gap-1 font-semibold text-[11px] text-[#B45309] hover:text-[#92400E] hover:underline transition-colors"
+        >
           <PhoneCall className="w-3 h-3 text-[#DC2626]" aria-hidden="true" />
           <AnimatedText as="span">{t.disclaimer.emergencyNotice}</AnimatedText>
-        </div>
+        </a>
       </div>
     </aside>
   );

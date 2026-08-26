@@ -43,7 +43,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
       icon: Home,
       action: () => {
         onSelectNav?.('home');
-        window.scrollTo({ top: 0, behavior: 'smooth' });
+        onScrollToSection?.('nalam-hero-section');
       },
     },
     {
@@ -70,7 +70,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
       icon: Bookmark,
       action: () => {
         onSelectNav?.('saved');
-        onScrollToSection?.('nalam-quick-questions-section');
+        onScrollToSection?.('nalam-saved-questions-section');
       },
     },
     {
@@ -88,7 +88,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
       icon: Info,
       action: () => {
         onSelectNav?.('about');
-        onScrollToSection?.('nalam-hero-section');
+        onScrollToSection?.('nalam-about-section');
       },
     },
   ];

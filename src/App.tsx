@@ -10,6 +10,8 @@ import { Sidebar, type SidebarNavItem } from './components/Sidebar/Sidebar';
 import { Hero } from './components/Hero/Hero';
 import { QuickQuestions } from './components/QuickQuestions/QuickQuestions';
 import { HealthTopics } from './components/HealthTopics/HealthTopics';
+import { SavedQuestions } from './components/SavedQuestions/SavedQuestions';
+import { AboutSection } from './components/About/AboutSection';
 import { ChatWorkspace } from './components/Chat/ChatWorkspace';
 import { MedicalDisclaimer } from './components/common/MedicalDisclaimer';
 import { BackgroundAtmosphere } from './components/common/BackgroundAtmosphere';
@@ -17,11 +19,13 @@ import { AnimatedText } from './components/common/AnimatedText';
 import { useLanguage } from './i18n/useTranslation';
 import { HeartPulse, PhoneCall } from 'lucide-react';
 import type { HealthTopicItem } from './types';
+import { NalamLogo } from './components/common/NalamLogo';
 
 const AppContent: React.FC = () => {
   const { t, language } = useLanguage();
   const [selectedPromptText, setSelectedPromptText] = useState<string>('');
   const [activeNav, setActiveNav] = useState<SidebarNavItem>('home');
+  const [chatResetKey, setChatResetKey] = useState<number>(0);
 
   const handleSelectPrompt = (prompt: string) => {
     setSelectedPromptText(prompt);
@@ -42,6 +46,7 @@ const AppContent: React.FC = () => {
 
   const handleNewChat = () => {
     setSelectedPromptText('');
+    setChatResetKey((prev) => prev + 1);
     const inputElement = document.getElementById('chat-workspace-textarea');
     if (inputElement) {
       inputElement.focus();
@@ -49,6 +54,14 @@ const AppContent: React.FC = () => {
   };
 
   const handleScrollToSection = (sectionId: string) => {
+    if (sectionId === 'nalam-hero-section' || sectionId === 'top') {
+      const discoveryArea = document.getElementById('nalam-discovery-area');
+      if (discoveryArea) {
+        discoveryArea.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      return;
+    }
     const el = document.getElementById(sectionId);
     if (el) {
       el.scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -72,7 +85,7 @@ const AppContent: React.FC = () => {
           />
         </div>
 
-        {/* AREA 2 (CENTER): Discovery / Health Content Area (Hero, Quick Questions, Health Topics, Disclaimer) */}
+        {/* AREA 2 (CENTER): Discovery / Health Content Area (Hero, Quick Questions, Health Topics, Saved, About, Disclaimer) */}
         <main
           id="nalam-discovery-area"
           aria-label={t.accessibility.discoveryAreaAriaLabel}
@@ -87,6 +100,15 @@ const AppContent: React.FC = () => {
           {/* Public Health Topics with Contextual Animation Slots */}
           <HealthTopics onSelectTopic={handleSelectTopic} />
 
+          {/* Saved Questions Section */}
+          <SavedQuestions
+            onSelectQuestion={handleSelectPrompt}
+            currentPrompt={selectedPromptText}
+          />
+
+          {/* About Nalam AI Section */}
+          <AboutSection />
+
           {/* Medical Notice & Disclaimer Card */}
           <MedicalDisclaimer />
         </main>
@@ -98,6 +120,7 @@ const AppContent: React.FC = () => {
           className="flex-1 min-w-0 min-h-[480px] md:min-h-0 h-full flex flex-col"
         >
           <ChatWorkspace
+            key={chatResetKey}
             initialPrompt={selectedPromptText}
             onClearPrompt={() => setSelectedPromptText('')}
             onSubmitMessage={() => {}}
@@ -112,7 +135,7 @@ const AppContent: React.FC = () => {
       >
         <div className="max-w-[1720px] mx-auto flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <HeartPulse className="w-3.5 h-3.5 text-[#0F9D8A]" aria-hidden="true" />
+            <NalamLogo size="xs" variant="brand" />
             <span className="font-semibold text-[#172554]">NALAM AI</span>
             <span>—</span>
             <AnimatedText as="span">{t.app.tagline}</AnimatedText>
@@ -120,10 +143,14 @@ const AppContent: React.FC = () => {
 
           <div className="flex items-center gap-3">
             <span className="text-[#94A3B8]">•</span>
-            <div className="inline-flex items-center gap-1 font-medium text-[#991B1B]">
+            <a
+              href="tel:108"
+              id="footer-emergency-helpline-link"
+              className="inline-flex items-center gap-1 font-medium text-[#991B1B] hover:text-[#DC2626] transition-colors"
+            >
               <PhoneCall className="w-3 h-3" aria-hidden="true" />
               <AnimatedText as="span">{t.footer.helpline}</AnimatedText>
-            </div>
+            </a>
           </div>
         </div>
       </footer>

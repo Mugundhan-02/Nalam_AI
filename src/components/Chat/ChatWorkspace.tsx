@@ -4,9 +4,8 @@ import {
   Send,
   Sparkles,
   Mic,
+  MicOff,
   RotateCcw,
-  Stethoscope,
-  HeartPulse,
   Info,
   ShieldCheck,
   Activity,
@@ -16,9 +15,13 @@ import {
   BookOpen,
   MoreVertical,
   RefreshCw,
+  Copy,
+  Check,
+  AlertCircle,
 } from 'lucide-react';
 import { useLanguage } from '../../i18n/useTranslation';
 import { AnimatedText } from '../common/AnimatedText';
+import { NalamLogo } from '../common/NalamLogo';
 import { sendChatMessage } from '../../api/chat';
 import { CHAT_VALIDATION_RULES } from '../../api/types';
 import { usePrefersReducedMotion } from '../../hooks/usePrefersReducedMotion';
@@ -52,9 +55,37 @@ export const ChatWorkspace: React.FC<ChatWorkspaceProps> = ({
   const [inputQuery, setInputQuery] = useState('');
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [copiedToast, setCopiedToast] = useState(false);
+  const [isListening, setIsListening] = useState(false);
 
   const inputRef = useRef<HTMLInputElement>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
+  const menuRef = useRef<HTMLDivElement>(null);
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const recognitionRef = useRef<any>(null);
+
+  // Close dropdown on click outside or Escape
+  useEffect(() => {
+    const handleClickOutside = (e: MouseEvent) => {
+      if (menuRef.current && !menuRef.current.contains(e.target as Node)) {
+        setIsMenuOpen(false);
+      }
+    };
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        setIsMenuOpen(false);
+      }
+    };
+    if (isMenuOpen) {
+      document.addEventListener('mousedown', handleClickOutside);
+      document.addEventListener('keydown', handleKeyDown);
+    }
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+      document.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [isMenuOpen]);
 
   // When initialPrompt changes (e.g., user clicked a Quick Question, Topic, or Pill)
   useEffect(() => {
@@ -137,9 +168,84 @@ export const ChatWorkspace: React.FC<ChatWorkspaceProps> = ({
   const handleClearChat = () => {
     setMessages([]);
     setInputQuery('');
+    setIsMenuOpen(false);
     onClearPrompt?.();
     if (inputRef.current) {
       inputRef.current.focus();
+    }
+  };
+
+  const handleCopyConversation = async () => {
+    setIsMenuOpen(false);
+    try {
+      const transcript = [
+        `[${t.chatWorkspace.aiBadge}]: ${t.chatWorkspace.welcomeMessage}`,
+        ...messages.map((m) =>
+          m.sender === 'user'
+            ? `[${t.chatWorkspace.userBadge} (${m.timestamp})]: ${m.text}`
+            : `[${t.chatWorkspace.aiBadge} (${m.timestamp})]: ${m.text}`
+        ),
+      ].join('\n\n');
+
+      await navigator.clipboard.writeText(transcript);
+      setCopiedToast(true);
+      setTimeout(() => setCopiedToast(false), 2500);
+    } catch {
+      // ignore clipboard error
+    }
+  };
+
+  const handleScrollToDisclaimer = () => {
+    setIsMenuOpen(false);
+    const disclaimerEl = document.getElementById('nalam-disclaimer-section');
+    if (disclaimerEl) {
+      disclaimerEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  };
+
+  const toggleVoiceInput = () => {
+    // Check SpeechRecognition support in browser
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const SpeechRecognition = (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
+
+    if (!SpeechRecognition) {
+      alert(language === 'ta' ? 'உங்கள் உலாவியில் குரல் உள்ளீடு ஆதரிக்கப்படவில்லை.' : 'Voice recognition is not supported on this browser.');
+      return;
+    }
+
+    if (isListening) {
+      recognitionRef.current?.stop();
+      setIsListening(false);
+      return;
+    }
+
+    try {
+      const recognition = new SpeechRecognition();
+      recognition.lang = language === 'ta' ? 'ta-IN' : 'en-IN';
+      recognition.interimResults = false;
+      recognition.maxAlternatives = 1;
+
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      recognition.onresult = (event: any) => {
+        const transcript = event.results[0][0].transcript;
+        setInputQuery((prev) => (prev ? `${prev} ${transcript}` : transcript));
+        inputRef.current?.focus();
+        setIsListening(false);
+      };
+
+      recognition.onerror = () => {
+        setIsListening(false);
+      };
+
+      recognition.onend = () => {
+        setIsListening(false);
+      };
+
+      recognitionRef.current = recognition;
+      recognition.start();
+      setIsListening(true);
+    } catch {
+      setIsListening(false);
     }
   };
 
@@ -170,9 +276,7 @@ export const ChatWorkspace: React.FC<ChatWorkspaceProps> = ({
         className="px-4 sm:px-5 py-3.5 border-b border-[#F1F5F9] bg-white flex items-center justify-between shrink-0"
       >
         <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-full bg-[#E8F7F3] border border-[#0F9D8A]/20 flex items-center justify-center text-[#0F9D8A] shadow-2xs">
-            <Stethoscope className="w-5 h-5" aria-hidden="true" />
-          </div>
+          <NalamLogo size="md" variant="subtle" id="chat-workspace-nalam-logo" />
 
           <div>
             <h2 className="font-bold text-sm text-[#0F172A] tracking-tight">
@@ -203,15 +307,82 @@ export const ChatWorkspace: React.FC<ChatWorkspaceProps> = ({
             </button>
           )}
 
-          <button
-            type="button"
-            aria-label={t.accessibility.moreOptionsAriaLabel}
-            className="p-1.5 text-[#64748B] hover:text-[#0F172A] rounded-lg transition-colors cursor-pointer"
-          >
-            <MoreVertical className="w-4 h-4" />
-          </button>
+          {/* Three-dots menu container */}
+          <div className="relative" ref={menuRef}>
+            <button
+              type="button"
+              id="chat-workspace-more-options-btn"
+              onClick={() => setIsMenuOpen((prev) => !prev)}
+              aria-expanded={isMenuOpen}
+              aria-haspopup="true"
+              aria-label={t.accessibility.moreOptionsAriaLabel}
+              className="p-1.5 text-[#64748B] hover:text-[#0F172A] hover:bg-[#F1F5F9] rounded-lg transition-colors cursor-pointer"
+            >
+              <MoreVertical className="w-4 h-4" />
+            </button>
+
+            {/* Dropdown menu */}
+            {isMenuOpen && (
+              <div
+                id="chat-workspace-options-dropdown"
+                role="menu"
+                className="absolute right-0 top-full mt-1.5 w-56 bg-white border border-[#E2E8F0] rounded-2xl shadow-lg py-1.5 z-30 divide-y divide-[#F1F5F9]"
+              >
+                <div className="py-1">
+                  <button
+                    type="button"
+                    role="menuitem"
+                    id="chat-menu-copy-transcript"
+                    onClick={handleCopyConversation}
+                    className="w-full flex items-center gap-2.5 px-3.5 py-2 text-xs font-medium text-[#334155] hover:bg-[#F8FAFC] hover:text-[#0F9D8A] text-left transition-colors cursor-pointer"
+                  >
+                    <Copy className="w-4 h-4 text-[#64748B]" />
+                    <AnimatedText as="span">{t.chatWorkspace.menuCopyChat}</AnimatedText>
+                  </button>
+
+                  <button
+                    type="button"
+                    role="menuitem"
+                    id="chat-menu-view-disclaimer"
+                    onClick={handleScrollToDisclaimer}
+                    className="w-full flex items-center gap-2.5 px-3.5 py-2 text-xs font-medium text-[#334155] hover:bg-[#F8FAFC] hover:text-[#0F9D8A] text-left transition-colors cursor-pointer"
+                  >
+                    <AlertCircle className="w-4 h-4 text-[#64748B]" />
+                    <AnimatedText as="span">{t.chatWorkspace.menuScrollDisclaimer}</AnimatedText>
+                  </button>
+                </div>
+
+                {messages.length > 0 && (
+                  <div className="py-1">
+                    <button
+                      type="button"
+                      role="menuitem"
+                      id="chat-menu-clear-chat"
+                      onClick={handleClearChat}
+                      className="w-full flex items-center gap-2.5 px-3.5 py-2 text-xs font-medium text-[#DC2626] hover:bg-[#FEF2F2] text-left transition-colors cursor-pointer"
+                    >
+                      <RotateCcw className="w-4 h-4 text-[#DC2626]" />
+                      <AnimatedText as="span">{t.chatWorkspace.menuClearChat}</AnimatedText>
+                    </button>
+                  </div>
+                )}
+              </div>
+            )}
+          </div>
         </div>
       </div>
+
+      {/* Floating Copied Toast */}
+      {copiedToast && (
+        <div
+          id="chat-copied-toast"
+          role="status"
+          className="absolute top-16 left-1/2 -translate-x-1/2 bg-[#0F172A] text-white px-3.5 py-1.5 rounded-full text-xs shadow-md z-40 flex items-center gap-2"
+        >
+          <Check className="w-3.5 h-3.5 text-emerald-400" />
+          <AnimatedText as="span">{t.chatWorkspace.menuCopiedNotice}</AnimatedText>
+        </div>
+      )}
 
       {/* 2. Chat Messages Area (Independently Scrollable) */}
       <div
@@ -220,9 +391,7 @@ export const ChatWorkspace: React.FC<ChatWorkspaceProps> = ({
       >
         {/* Initial Approved Welcome Message Bubble */}
         <div className="flex items-start gap-3">
-          <div className="w-8 h-8 rounded-full bg-[#E8F7F3] border border-[#0F9D8A]/20 flex items-center justify-center text-[#0F9D8A] shrink-0 mt-0.5 shadow-2xs">
-            <Stethoscope className="w-4 h-4" aria-hidden="true" />
-          </div>
+          <NalamLogo size="sm" variant="subtle" className="mt-0.5" />
 
           <div className="space-y-1 max-w-[85%]">
             <div className="p-4 rounded-2xl rounded-tl-xs bg-white text-[#0F172A] border border-[#E2E8F0] shadow-2xs text-xs sm:text-sm leading-relaxed">
@@ -287,9 +456,7 @@ export const ChatWorkspace: React.FC<ChatWorkspaceProps> = ({
                 </div>
               ) : (
                 <div className="flex items-start gap-3 max-w-[95%]">
-                  <div className="w-8 h-8 rounded-full bg-[#E8F7F3] border border-[#0F9D8A]/20 flex items-center justify-center text-[#0F9D8A] shrink-0 mt-0.5 shadow-2xs">
-                    <Stethoscope className="w-4 h-4" aria-hidden="true" />
-                  </div>
+                  <NalamLogo size="sm" variant="subtle" className="mt-0.5" />
 
                   <div className="space-y-1 flex-1 min-w-0">
                     <div className="p-4 rounded-2xl rounded-tl-xs bg-white text-[#0F172A] border border-[#E2E8F0] shadow-2xs space-y-3">
@@ -421,9 +588,7 @@ export const ChatWorkspace: React.FC<ChatWorkspaceProps> = ({
             animate={{ opacity: 1, y: 0 }}
             className="flex items-center gap-3"
           >
-            <div className="w-8 h-8 rounded-full bg-[#E8F7F3] border border-[#0F9D8A]/20 flex items-center justify-center text-[#0F9D8A] shrink-0 shadow-2xs">
-              <Stethoscope className="w-4 h-4" />
-            </div>
+            <NalamLogo size="sm" variant="subtle" />
             <div className="flex items-center gap-1.5 p-3.5 bg-white border border-[#E2E8F0] rounded-2xl rounded-tl-xs shadow-2xs">
               <span className="text-xs text-[#64748B]">{t.chatWorkspace.typingStatus}</span>
               <span className="inline-flex gap-1">
@@ -506,11 +671,20 @@ export const ChatWorkspace: React.FC<ChatWorkspaceProps> = ({
             <button
               type="button"
               id="workspace-voice-input-btn"
+              onClick={toggleVoiceInput}
               title={t.input.voiceButtonTooltip}
               aria-label={t.input.voiceButtonTooltip}
-              className="p-2 text-[#64748B] hover:text-[#0F9D8A] hover:bg-[#E8F7F3] rounded-full transition-colors cursor-pointer"
+              className={`p-2 rounded-full transition-colors cursor-pointer ${
+                isListening
+                  ? 'bg-red-100 text-red-600 animate-pulse'
+                  : 'text-[#64748B] hover:text-[#0F9D8A] hover:bg-[#E8F7F3]'
+              }`}
             >
-              <Mic className="w-4 h-4" aria-hidden="true" />
+              {isListening ? (
+                <MicOff className="w-4 h-4" aria-hidden="true" />
+              ) : (
+                <Mic className="w-4 h-4" aria-hidden="true" />
+              )}
             </button>
 
             <button

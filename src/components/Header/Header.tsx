@@ -1,8 +1,9 @@
 import React from 'react';
-import { ShieldCheck, Sun } from 'lucide-react';
+import { ShieldCheck } from 'lucide-react';
 import { useLanguage } from '../../i18n/useTranslation';
 import { LanguageToggle } from '../LanguageToggle/LanguageToggle';
 import { AnimatedText } from '../common/AnimatedText';
+import { NalamLogo } from '../common/NalamLogo';
 
 export const Header: React.FC = () => {
   const { t } = useLanguage();
@@ -14,26 +15,31 @@ export const Header: React.FC = () => {
     >
       <div className="w-full px-4 sm:px-6 h-16 flex items-center justify-between gap-4">
         {/* Brand identity */}
-        <div className="flex items-center gap-3 shrink-0">
-          <div
-            id="nalam-brand-logo"
-            className="w-10 h-10 rounded-2xl bg-gradient-to-br from-[#0F9D8A] to-[#0D8A79] flex items-center justify-center text-white shadow-xs"
-            aria-hidden="true"
-          >
-            <svg
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              className="w-5 h-5"
-            >
-              <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z" />
-              <path d="M12 7v6" strokeWidth="2.5" />
-              <path d="M9 10h6" strokeWidth="2.5" />
-            </svg>
-          </div>
+        <div
+          id="header-brand-container"
+          onClick={() => {
+            const discoveryArea = document.getElementById('nalam-discovery-area');
+            if (discoveryArea) {
+              discoveryArea.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+          }}
+          className="flex items-center gap-3 shrink-0 cursor-pointer select-none"
+          role="button"
+          tabIndex={0}
+          onKeyDown={(e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+              e.preventDefault();
+              const discoveryArea = document.getElementById('nalam-discovery-area');
+              if (discoveryArea) {
+                discoveryArea.scrollTo({ top: 0, behavior: 'smooth' });
+              }
+              window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+          }}
+          aria-label="Nalam AI Home"
+        >
+          <NalamLogo id="nalam-brand-logo" size="md" variant="brand" />
 
           <div className="flex flex-col">
             <span className="font-bold text-lg text-[#0F172A] tracking-tight leading-none">
@@ -60,18 +66,9 @@ export const Header: React.FC = () => {
           </div>
         </div>
 
-        {/* Right action area: Language Toggle + Theme button */}
+        {/* Right action area: Language Toggle */}
         <div className="flex items-center gap-2.5 shrink-0">
           <LanguageToggle />
-
-          <button
-            type="button"
-            id="theme-toggle-btn"
-            aria-label={t.header.themeToggleAriaLabel}
-            className="w-9 h-9 rounded-xl border border-[#E2E8F0] bg-white hover:bg-[#F8FAFC] flex items-center justify-center text-[#64748B] hover:text-[#0F172A] transition-colors cursor-pointer"
-          >
-            <Sun className="w-4 h-4" />
-          </button>
         </div>
       </div>
     </header>

@@ -203,18 +203,11 @@ export const HealthTopics: React.FC<HealthTopicsProps> = ({ onSelectTopic, onSel
 
   return (
     <section id="nalam-health-topics-section" aria-labelledby="health-topics-title" className="shrink-0 w-full">
-      {/* Section Header with View all button */}
-      <div className="flex items-center justify-between gap-2 mb-3">
+      {/* Section Header */}
+      <div className="flex items-center gap-2 mb-3">
         <h2 id="health-topics-title" className="text-sm sm:text-base font-bold text-[#0F172A]">
           <AnimatedText as="span">{t.healthTopics.title}</AnimatedText>
         </h2>
-        <button
-          type="button"
-          id="health-topics-view-all-btn"
-          className="text-xs font-semibold text-[#64748B] hover:text-[#0F9D8A] transition-colors cursor-pointer"
-        >
-          <AnimatedText as="span">{t.healthTopics.viewAll}</AnimatedText>
-        </button>
       </div>
 
       {/* 4x2 Grid of Health Topic Cards */}

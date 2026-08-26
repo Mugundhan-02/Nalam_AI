@@ -91,6 +91,10 @@ export interface TranslationSchema {
     pillDengueQuery: string;
     pillFeverQuery: string;
     pillDoctorQuery: string;
+    menuCopyChat: string;
+    menuCopiedNotice: string;
+    menuScrollDisclaimer: string;
+    menuClearChat: string;
   };
   chatPreview: {
     title: string;
@@ -115,6 +119,38 @@ export interface TranslationSchema {
     body: string;
     emergencyNotice: string;
     centerBanner: string;
+  };
+  savedQuestionsSection: {
+    title: string;
+    subtitle: string;
+    emptyTitle: string;
+    emptySubtitle: string;
+    addCustomBtn: string;
+    saveCurrentPrompt: string;
+    inputPlaceholder: string;
+    saveAction: string;
+    cancelAction: string;
+    removeAction: string;
+    clearAllAction: string;
+    restoreSamplesAction: string;
+    askThisQuestion: string;
+    sampleQuestionsBadge: string;
+    itemSavedToast: string;
+  };
+  aboutSection: {
+    title: string;
+    tagline: string;
+    missionTitle: string;
+    missionBody: string;
+    featureBilingualTitle: string;
+    featureBilingualDesc: string;
+    featureEvidenceTitle: string;
+    featureEvidenceDesc: string;
+    featurePrivacyTitle: string;
+    featurePrivacyDesc: string;
+    disclaimerReminderTitle: string;
+    disclaimerReminderBody: string;
+    emergencyAction: string;
   };
   footer: {
     helpline: string;
